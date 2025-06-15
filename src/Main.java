@@ -4,6 +4,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import ArtSystem.*;
+import ReportSystem.Report;
+import ReportSystem.ReportFactory;
 
 
 import static java.util.stream.Collectors.toMap;
@@ -82,26 +84,37 @@ public class Main {
         System.out.println("3 - Contact");
         System.out.println("4 - Routine");
 
-        // TODO: Add logic to create the report according to the user choices
         String type = sc.nextLine().trim();
+
         System.out.println("Enter the report content:");
         String content = sc.nextLine();
+
         System.out.println("Add decorators one by one (enter code). Type 's' to submit and print the report:");
         System.out.println("u - Urgent ([URGENT] at the start)");
         System.out.println("c - Classified ([CLASSIFIED] at the end)");
         System.out.println("t - To Commander ([TO COMMANDER] at the end)");
         System.out.println("a - Audio Attachment ([AUDIO ATTACHED] at the end)");
 
+        // איסוף קודים של הקישוטים
+        List<String> decoratorCodes = new ArrayList<>();
         while (true) {
-            String dec = sc.nextLine().trim();
+            String dec = sc.nextLine().trim().toLowerCase();
             if (dec.equals("s")) break;
+            decoratorCodes.add(dec);
         }
-        // TODO: Add a Report Factory and use it to create a report based on the type and decorators
-        Report report = null;
+
+        // שימוש בפקטורי כדי לבנות את הדוח
+        Report report;
+        try {
+            report = ReportFactory.createReport(type, content, decoratorCodes);
+        } catch (Exception e) {
+            report = null;
+        }
 
         if (report != null)
             System.out.println(report.getContent());
         else
             System.out.println("Report construction failed. Check implementation.");
     }
+
 }
