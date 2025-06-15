@@ -9,7 +9,7 @@ public class Painting {
     Map<String, Element> pathToElementMap;
     List<Element> elementList;
 
-    Painting() {
+    public Painting() {
         elementList = new ArrayList<>();
         pathToElementMap = new HashMap<>();
     }
@@ -35,5 +35,10 @@ public class Painting {
         return Painting.class.getSimpleName().toLowerCase();
     }
 
+    public void acceptAllElements(ElementVisitor visitor) {
+        for (Element element : elementList) {
+            element.accept(visitor);
+        }
+    }
 
 }

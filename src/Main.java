@@ -3,36 +3,42 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import ArtSystem.*;
+
+
 import static java.util.stream.Collectors.toMap;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Choose from the following options:\n" +
                 "a: Art\n" +
                 "r: Reports");
         String choice = scanner.nextLine();
-        if (choice.equals("a")){
+        if (choice.equals("a")) {
             artMenu(scanner);
         }
-        if (choice.equals("r")){
+        if (choice.equals("r")) {
             reportsMenu(scanner);
         }
     }
+
     public static Painting readElementDetails(String path) throws IOException {
         Painting painting = new Painting();
         Map<String, Element> files = new HashMap();
 
         Files.lines(Paths.get(path))
                 .map(str -> ElementDetailsFactory.getPaintingElement(str))
-                .forEach(e-> painting.addElement(e));
+                .forEach(e -> painting.addElement(e));
         return painting;
     }
+
     public static void artMenu(Scanner scanner) throws IOException {
         System.out.println("Enter the path of the painting description");
-        String path=scanner.nextLine();
-        Painting root= readElementDetails(path);
+        String path = scanner.nextLine();
+        Painting root = readElementDetails(path);
         System.out.println("Choose from the following options:\n" +
                 "q: quit\n" +
                 "c: count elements\n" +
@@ -43,25 +49,33 @@ public class Main {
         while (!(myString = scanner.nextLine()).equals("q")) {
             switch (myString) {
                 case "c":
-                    //TODO: Add counting behavior
+                    CountVisitor countVisitor = new CountVisitor();
+                    root.acceptAllElements(countVisitor);
+                    System.out.println(countVisitor.getCount());
                     break;
+
                 case "sh":
-                    //TODO: Add short representation behavior
+                    ShortPrintVisitor shortVisitor = new ShortPrintVisitor();
+                    root.acceptAllElements(shortVisitor);
                     break;
+
                 case "ta":
-                    //TODO: Add area calculation behavior
+                    TotalAreaVisitor areaVisitor = new TotalAreaVisitor();
+                    root.acceptAllElements(areaVisitor);
+                    System.out.println(areaVisitor.getTotalAreaRounded());
                     break;
+
                 case "lp":
-                    //TODO: Add long representation behavior
+                    LongPrintVisitor longVisitor = new LongPrintVisitor();
+                    root.acceptAllElements(longVisitor);
+                    System.out.println(longVisitor.getResult());
                     break;
-
-
             }
-
         }
     }
 
-    public static void reportsMenu(Scanner sc){
+
+    public static void reportsMenu(Scanner sc) {
         System.out.println("Choose report type:");
         System.out.println("1 - Incident");
         System.out.println("2 - Movement");
