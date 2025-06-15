@@ -15,8 +15,8 @@ public class TotalAreaVisitor implements ElementVisitor {
 
     @Override
     public void visit(Boat boat) {
-        double rect = boat.getWidth() / 2 * boat.getLength();
-        double halfCircle = Math.PI * Math.pow(boat.getWidth() / 2.0, 2) / 2;
+        double rect = (boat.getLength() - boat.getWidth() / 2) * boat.getWidth();
+        double halfCircle = Math.PI * (Math.pow(boat.getWidth() / 2.0, 2) / 2);
         total += rect + halfCircle;
     }
 

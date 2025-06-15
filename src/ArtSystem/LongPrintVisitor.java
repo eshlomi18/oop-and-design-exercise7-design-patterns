@@ -20,15 +20,18 @@ public class LongPrintVisitor implements ElementVisitor {
 
     @Override
     public void visit(Flag flag) {
-        sb.append("A flag of color: ").append(flag.getColor().toString().toLowerCase())
-          .append(", with pole height of ").append(flag.getCarrierHeight()).append(". ");
+        sb.append("A flag with color: ")
+                .append(flag.getColor().toString().toLowerCase())
+                .append(" of height ")
+                .append(flag.getCarrierHeight())
+                .append(". ");
     }
 
     @Override
     public void visit(Kid kid) {
-        int age = 2023 - kid.getBirthYear(); // התאמה לשנה של הבודק
+        int age = java.time.Year.now().getValue() - kid.getBirthYear(); // התאמה לשנה של הבודק
         sb.append("A ").append(age).append(" year old kid with ")
-          .append(kid.getHairColor().toString().toLowerCase()).append(" hair. ");
+                .append(kid.getHairColor().toString().toLowerCase()).append(" hair. ");
     }
 
     @Override

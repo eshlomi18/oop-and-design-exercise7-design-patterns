@@ -29,7 +29,7 @@ public class Main {
 
     public static Painting readElementDetails(String path) throws IOException {
         Painting painting = new Painting();
-        Map<String, Element> files = new HashMap();
+        Map<String, Element> files = new HashMap<>();
 
         Files.lines(Paths.get(path))
                 .map(str -> ElementDetailsFactory.getPaintingElement(str))
